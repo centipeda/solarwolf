@@ -1,8 +1,8 @@
 #hud class
 
-import pygame
+import pygame, pygame.font
 from pygame.locals import *
-import game, gfx, txt, score
+import game, gfx, score
 
 
 hudimage = None
@@ -18,6 +18,7 @@ class HUD:
     def __init__(self):
         self.imghud1 = gfx.load('hud.gif')
         self.imghud2 = gfx.load('hud2.gif')
+        self.font = pygame.font.Font(None, 22)
         self.timepos = 24, 102
         self.wolfrect = Rect(16, 57, 37, 19)
         self.timesize = 64, 382
@@ -103,7 +104,7 @@ class HUD:
         gfx.dirty2(r1, r2)
 
 
-    def drawlevel(self, level, fast=0):
+    def drawlevel(self, level, fast=0):        
         dest = self.drawsurface
         offset = self.drawoffset
         if not fast:
@@ -125,3 +126,4 @@ class HUD:
             self.drawtime(game.timeleft)
 
 
+        

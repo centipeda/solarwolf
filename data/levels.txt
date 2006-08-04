@@ -6,7 +6,7 @@
 ; a line starting with ">" is the level text
 ; a line starting with "<" is text for 2nd round
 ;
-> Welcome to SolarWolf
+> Collect all boxes
 < The Second Wave Begins
     #
    ###
@@ -16,8 +16,8 @@
    ###
     #
 !
-> Start Saving the Galaxy
-< King Me
+> Beat the red timer, skip a level
+< Checkmate
  ##  ##
  ##  ##
    ##
@@ -25,8 +25,8 @@
  ##  ##
  ##  ##
 !
-> Follow the Boxes
-< Spinning Top
+> Hold down space/fire for turbo
+< String for a kite
     #
  #######
    ###
@@ -35,8 +35,8 @@
  #######
     #
 !
-> DoubleDown on Yellow?
-< TripleDown on Red?
+> DoubleDown on yellow?
+< TripleDown on red?
   ####
  ##  ##
     ##
@@ -55,8 +55,8 @@
    ##  ##
   # #  ##
 !
-> Email Sprial
-< More Junk Mail
+> Eye of the @
+< mail@nospam.com
  ####
 #    #
 # ** # s
@@ -65,8 +65,8 @@
 #      #
  ######
 !
-> Fish Food
-< Cheddar Crackers
+> Fish food
+< Little cheddar crackers
     ##
  # ####
 #### ***s
@@ -74,8 +74,8 @@
  # ####
     ##
 !
-> Crazy Eights
-< Eight Ball
+> Crazy eights
+< To infinity and beyond
    ####
   ##  ##
  s ####
@@ -84,12 +84,12 @@
  ###  ###
   ######
 !
-> Magic Rings
-< Ring Bearer
+> They start shooting more
+< One ring to rule them all
   ## ##
- ## * ##
+ #  *  #
  # *** #
- ## * ##
+ #  *  #
 # ##### #
 #   s   #
  #######
@@ -104,17 +104,7 @@
     *####
        *#
 !
-> ae
-< Daemons Fork
- ##
-    #***
- ####   *
-#   #****
-#s  #
- ####****
-    #
-!
-> Turn that Frown Upside Down
+> Turn that frown upside down
 < lol
      ##
  ** s ##
@@ -124,18 +114,8 @@
  **   ##
      ##
 !
-> Show Me the Money
-< Want The Green Back
-   **
-  #####
- # **
-  ####
-s  ** #
- #####
-   **
-!
-> Bad Punctuation
-< Slash Dot
+> slashdot
+< first post
      ##
  s  ###
    ###
@@ -144,8 +124,8 @@ s  ** #
 ###   ***
 ##     *
 !
-> In the Crosshair
-< Origami
+> In the crosshair
+< Origami?
  ##   ##
  # #*# #
  #  *  #
@@ -154,8 +134,8 @@ s  ** #
  # #*# #
  ##   ##
 !
-> Feeling Down
-< Getting Lower
+> Feeling down
+< Getting lower
    *#*
    #s#
    ###
@@ -164,18 +144,8 @@ s  ** #
    ###
     *
 !
-> Omega
-< Fine Watches
-   ###
-  ## ##
- ##   ##
- ##   ##
-s ## ##
-*  # #  *
- *** ***
-!
-> Needle on a Haystack
-< Get In There
+> Needle on a haystack
+< Only 10 levels to go
     *
     *
    *#*
@@ -184,8 +154,8 @@ s ## ##
 *###s###*
 #### ####
 !
-> Harder than it Looks
-< Avoid the Edges
+> Harder than it looks
+< Avoid the edges
  ### ###
 #**   **#
 #*     *#
@@ -194,8 +164,8 @@ s ## ##
 #**   **#
  ### ###
 !
-> Peculiar
-< Pygame
+> P
+< for pygame
 ########
  *#    *#
  *#  s *#
@@ -204,18 +174,8 @@ s ## ##
  *#
 ####
 !
-> Cross the Line
-< Border Zone
-      #
-     ##
-***  ###
-********s
-###  ***
- ##
- #
-!
-> X marks the Spot
-< Reds and Yellows
+> X marks the spot
+< Reds and yellows
 ##
 ###  ***
  ###*  *
@@ -225,18 +185,8 @@ s ## ##
  ***   #
 
 !
-< Follow the Compass
-> Magnetic North
-    #
-   ###
-  #####
- #######
- s  *
-  *****
-    *
-!
-> Whoa Man
-< Ankhed
+> Whoa man
+< International Woman of Mystery
  s######
  ##*  *##
  ##*  *##
@@ -245,18 +195,8 @@ s ## ##
   ******
     ##
 !
-> Footprints
-< Gnome Toes
- **  s
- ** * *
-  *#*#*
-   ###
-    ##
-   ###
-   ###
-!
-> Geomtric Puzzle
-< Challenged
+> Geomtric puzzle
+< Drink red ball
  ###
  ### s
  ###  **
@@ -265,7 +205,7 @@ s ## ##
  ###  **
 #####
 !
-> Abstract Art
+> No one hears your screams
 < Make it a Boxbuster night
 *******
  *******
@@ -275,8 +215,8 @@ s ## ##
 ##### **
  ###   *
 !
-> The Space Invader
-< Three Levels Left
+> The space invader
+< Three levels to go
 ##     ##
  #  *  #
  # ***s#
@@ -285,8 +225,8 @@ s ## ##
  # *** #
  #  *  #
 !
-> That's no Moon
-< It's a Spacestation
+> That's no moon
+< It's a spacestation
   ****
  **** ##
 **** ####

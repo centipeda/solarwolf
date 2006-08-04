@@ -23,12 +23,11 @@ arena = Rect(55, 50, 590, 490)
 
 poweruptime = 1000.0
 powerupspeed = 2.0
-asteroidspeed = 1.2
 
 timeleft = 0.0
 timetick = 0.0
-timefactor = 12.7    #how quickly time drops (bigger = slower)
-speedmult = 0
+timefactor = 12    #how quickly time drops (bigger = slower)
+speedmult = 1.0
 
 text_length = 80  #frames text is displayed in-game
 
@@ -72,5 +71,5 @@ def make_dataname(filename):
     filename = os.path.normpath(filename)
     return filename
 
-version = "1.3"
+version = "1.2"
 DEBUG = 0
