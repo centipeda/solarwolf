@@ -42,9 +42,10 @@ def fetch(name):
     return sound_cache[name]
 
 
-
-def play(name, volume=1.0, pos=-1):
-    volume *= 0.5
+#this is pretty hacky, but makes for easy soundplay
+#pass the soundfile name as the argument, and volume
+#as the value. thus, "snd.play(explode=128)"
+def play(name, volume=128):
     sound = fetch(name)
     if sound:
         chan = sound.play()
@@ -52,12 +53,7 @@ def play(name, volume=1.0, pos=-1):
             chan = pygame.mixer.find_channel(1)
             chan.play(sound)
         if chan:
-            if pos == -1:
-                chan.set_volume(volume)
-            else:
-                percent = (pos / 700.0) 
-                inv = 1.0 - percent
-                chan.set_volume(inv*volume, percent*volume)
+            chan.set_volume(volume)
     
 
 def playmusic(musicname):
@@ -69,6 +65,5 @@ def playmusic(musicname):
     fullname = os.path.join('data', 'music', musicname)
     music.load(fullname)
     music.play(-1)
-    music.set_volume(1.0)
 
     

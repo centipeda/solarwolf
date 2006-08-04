@@ -16,8 +16,7 @@
    ###    
     #
 !
-> Beat the red timer, skip a level
-< Checkmate
+> Beat the timer, skip a level
  ##  ##
  ##  ##
    ##  
@@ -25,8 +24,15 @@
  ##  ##
  ##  ##
 !
+  ####
+ ##  ##
+    ##
+ s ##
+   ##
+
+   ##
+!
 > Hold down space/fire for turbo
-< Let's a go
     #
  #######
    ### 
@@ -35,47 +41,40 @@
  #######
     #
 !
-> DoubleDown on yellow?
-< TripleDown on red?
-  ####
- ##  ##
-    ##
- s ##
-   ##
-
-   **
-!
-> Dromedary
-< No perl in here
- #*#
-####  s  
-  ## ##
-  ######  
-   ######
-   ##  ##
-  # #  ##
-!
-> Eye of the @
-< mail@nospam.com
- ####  
-#    # 
-# ** # s 
-# ** # 
-# ####  
-#      #
- ###### 
-!
-> Fish food
-< 20,000 leages of pain
+> Reach level 8 to enable continues
     ##
  # ####
-#### ***s
+####   s
  #######
  # ####
     ##
 !
-> Crazy eights
-< To infinity and beyond
+> They start shooting more
+  ## ##
+ #  #  #
+ # ### #
+ #  #  #
+# ##### #
+#   s   #
+ #######
+! 
+##
+#####
+#########
+    s
+#########
+    #####
+       ##
+!
+> The deadly smiley face
+     ##
+ ## s ##
+ ##    ##
+   ##  ##
+ ##    ##
+ ##   ##
+     ##
+!
    ####
   ##  ##
  s ####
@@ -84,164 +83,125 @@
  ###  ###
   ######
 !
-> They start shooting more
-< I think it's a toilet
-  ## ##
- #  *  #
- # *** #
- #  *  #
-# ##### #
-#   s   #
- #######
-! 
-> Two way road
-< Three way road
-#*
-####*
-########*
-    s
-*########
-    *####
-       *#
-!
-> Turn that frown upside down
-< lol
-     ##
- ** s ##
- **    ##
-   ##  ##
- **    ##
- **   ##
-     ##
-!
-> slashdot
-< first post
      ##
  s  ###
    ###
   ###
- ###   *
-###   *** 
-##     *
+ ###   #
+###   ### 
+##     #
 !
-> In the crosshair
-< Origami?
  ##   ##
- # #*# #
- #  *  #
-*** s ***
- #  *  #
- # #*# #
+ # ### #
+ #  #  #
+### s ###
+ #  #  #
+ # ### #
  ##   ##
 !
-> Feeling down
-< Getting lower
-   *#*
+   ###
    #s#
    ###
- *#####*
+ #######
   #####
    ###
-    *
-!
-< Needle on a haystack
-> Keep hunting
-    * 
-    *
-   *#*
-  *# #*
- *#   #*
-*###s###*
-#### ####
-!
+    #
+!   
 > Harder than it looks
-< Avoid the edges
  ### ###
-#**   **#
-#*     *#
+###   ###
+##     ##
     s  
-#*     *#
-#**   **#
+##     ##
+###   ###
  ### ###
 !
-> P
-< for pygame
 ########  
- *#    *#
- *#  s *# 
- *######
- *# 
- *# 
+ ##    ##
+ ##  s ## 
+ #######
+ ## 
+ ## 
 ####
 !
-> X marks the spot
-< Reds and yellows
+ ####  
+#    # 
+# ## # s 
+# ## # 
+# ####  
+#      #
+ ###### 
+!
+    # 
+    #
+   ###
+  ## ##
+ ##   ##
+####s####
+#### ####
+!
 ##
-###  ***
- ###*  *  
-  #*s *
-  *  *## 
- *  *####
- ***   #
+###  ###
+ ####  #  
+  ##s #
+  #  ### 
+ #  #####
+ ###   #
       
-!
-> You can't handle the truth
-< Whoa man 
- s######
- ##*  *##
- ##*  *##
-  ###### 
-    ##  
-  ******
+! 
     ##
+  ######
+    ##  
+ s######
+ ###  ###
+ ###  ###
+  ###### 
 !
-> Geomtric puzzle
-< Remember the old EA intro?
+ ###
+####  s  
+  ## ##
+  ######  
+   ######
+   ##  ##
+  # #  ##
+!
  ###  
  ### s
- ###  **
-     ****
-  #  ****
- ###  **
+ ###  ##
+     ####
+  #  ####
+ ###  ##
 #####
 !
-> No one hears your screams
-< Make it a Boxbuster night
-******* 
- *******
-  **  **
- #   ***
-## s ***
-##### **
- ###   *
+########
+ #######
+  ######
+ #   ###
+## s ###
+##### ##
+####   #
 !
-> The space invader
-< Three levels to go
 ##     ##
- #  *  #
- # ***s#
-*********
-*********
- # *** #
- #  *  #
+ #  #  #
+ # ###s#
+#########
+#########
+ # ### #
+ #  #  #
 !
-> That's no moon
-< It's a spacestation
-  ****  
- **** ##
-**** ####
-***** ##
-********    
- ******s
-  ****
+  ####
+ ######
+###    #
+### s ###
+###    #
+ ######
+  ####
 !
-> Pie are square
-< You're all clear kid!
-       **
- *******
-********
-*  *s*
-   * *
-   * *
-  *  *
+       ##
+ #######
+########
+#  #s#
+   # #
+   # #
+  #  #
 !

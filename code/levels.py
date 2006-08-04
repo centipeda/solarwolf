@@ -47,7 +47,6 @@ def makelevel(level):
     corner = 106, 106
     startpos = corner[0]+236, corner[1]+182
     pos = [corner[0], corner[1]]
-    numboxes = 0
     for row in lev[2:]:
         cells = list(row)
         if touches == 2:
@@ -55,10 +54,6 @@ def makelevel(level):
         for cell in cells:
             if cell == '#':
                 boxlist.append(objbox.Box(pos, touches))
-                numboxes += touches
-            elif cell == '*':
-                boxlist.append(objbox.Box(pos, touches+1))
-                numboxes += touches + 1
             elif cell == 's':
                 startpos = pos[0] , pos[1] 
             pos[0] = pos[0] + size[0]
@@ -67,6 +62,7 @@ def makelevel(level):
     msg = ''
     msg = lev[touches-1]
     if level == maxlevels()-1: msg = 'Final Level'
+    numboxes = len(boxlist) * touches
     return boxlist, startpos, msg, numboxes
 
 

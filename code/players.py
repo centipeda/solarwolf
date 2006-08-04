@@ -2,7 +2,7 @@
 
 
 #each player needs a name, guid, score
-#high score list has name, guid, score
+#high score list has name, guid, score, AND date, version
 
 import time, random, sys, game, pickle, tempfile
 import os
@@ -14,10 +14,6 @@ winners = []
 def new_guid():
     return str(random.randint(0, sys.maxint-1))
 
-def make_winner(player):
-    player.winner = 1
-    players.remove(player)
-    winners.insert(0, player)
 
 class Player:
     def __init__(self, name, guid=None, score=0):
@@ -37,9 +33,9 @@ class Player:
         self.guid = self.name + '_' + new_guid()
 
     def start_level(self):
-        if not self or self.score < 1:
+        if not self or self.score < 8:
             return 0
-        return self.score
+        return self.score - 2
 
 def find_player(guid):
     for p in players:
@@ -61,9 +57,8 @@ def load_players():
                 winners.append(p)
             else:
                 players.append(p)
-    except (IOError, OSError, KeyError):
+    except (IOError, OSError):
         players = []
-        print 'ERROR OPENING PLAYER FILE'
 
 
 

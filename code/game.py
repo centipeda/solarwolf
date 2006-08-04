@@ -5,30 +5,31 @@ from pygame.rect import Rect
 from cStringIO import StringIO
 
 
+version = "1.0"
 
 
 #various data constants
 start_lives = 3
 
-ship_fastspeed = 8
-ship_slowspeed = 5
+ship_fastspeed = 10
+ship_slowspeed = 6
 
-guard_speed = 4
+guard_speed = 5
 guard_fire = .01
 
 
-shot_speed = 3
+shot_speed = 4
 
 arena = Rect(55, 50, 590, 490)
 
 timeleft = 0.0
 timetick = 0.0
-timefactor = 15    #how quickly time drops (bigger = slower)
+timefactor = 14    #how quickly time drops (bigger = slower)
 
 text_length = 80  #frames text is displayed in-game
 
 
-news_url = 'http://pygame.org/shredwheat/solarwolf/thenews.html'
+news_url = 'http://shredwheat.zopesite.com/solarwolf/thenews'
 
 
 player = None
@@ -36,16 +37,18 @@ name_maxlength = 10     #longest name
 
 max_players = 5         #most player accounts available
 
-#clock info
-clock = None
-clockticks = 1
+
 
 
 #current gamehandler class instance
 #this should be set by function creating new handler
 handler = None
-thread = None  #any background thread
-stopthread = 0 #request thread terminate
+
+
+
+#FpsClock class, set in main.py
+fpsclock = None
+
 
 
 
@@ -62,11 +65,6 @@ def make_dataname(filename):
             try: os.mkdir(fullhome, 0755)
             except OSError: fullhome = home
         filename = os.path.join(fullhome, filename)
-    else:
-        filename = get_resource(filename)
     filename = os.path.abspath(filename)
     filename = os.path.normpath(filename)
     return filename
-
-version = "1.1"
-DEBUG = 0

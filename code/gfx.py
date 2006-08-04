@@ -63,7 +63,6 @@ def update():
 
 def text(font, color, text, center=None, pos='center'):
     bgd = 0, 0, 0
-    if text is None: text = ' '
     try:
         if surface.get_bytesize()>1:
             img = font.render(text, 1, color, bgd)
@@ -71,34 +70,27 @@ def text(font, color, text, center=None, pos='center'):
         else:
             img = font.render(text, 0, color)
         img = img.convert()
-    except (pygame.error, TypeError):
-        #print 'TEXTFAILED', text
+    except pygame.error:
+        print 'TEXTFAILED', text, color
         img = pygame.Surface((10, 10))
-        #raise
     r = img.get_rect()
     if center: setattr(r, pos, center)
     return [img, r]
 
 
 def load(name):
-    img = load_raw(name)
+    file = game.get_resource(name)
+    img = pygame.image.load(file)
     #use rle acceleration if no hardware accel
     if not surface.get_flags() & HWSURFACE:
-        pass
         clear = img.get_colorkey()
         if clear:
             img.set_colorkey(clear, RLEACCEL)
     return img.convert()
 
 
-def load_raw(name):
-    file = game.get_resource(name)
-    img = pygame.image.load(file)
-    return img
-
-
 def loadpalette():
-    file = open(game.get_resource('solarwolf.pal'))
+    file = game.get_resource('solarwolf.pal')
     pal = []
     for line in file.readlines()[3:]:
         vals = [int(x) for x in line.split()]

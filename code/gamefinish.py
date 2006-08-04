@@ -23,7 +23,7 @@ class GameFinish:
         if not self.started:
             self.started = 1
             if snd.music:
-                snd.music.fadeout(15*game.clockticks)
+                snd.music.fadeout(15*game.clock.fps_ticks)
 
         if not self.ticks:
             gfx.surface.fill(0)

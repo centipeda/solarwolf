@@ -8,20 +8,14 @@ import game, gfx, snd
 
 boximages = []
 yboximages = []
-rboximages = []
 
 def load_game_resources():
     global boximages
     for i in range(15):
-        img = gfx.load_raw('box%02d.gif'%i)
-        boximages.append(img.convert())
-        pal = img.get_palette()
-        newpal = [(g,g,b) for (r,g,b) in pal]
-        img.set_palette(newpal)
-        yboximages.append(img.convert())
-        newpal = [(g,b,b) for (r,g,b) in pal]
-        img.set_palette(newpal)
-        rboximages.append(img.convert())  
+        img = gfx.load('box%02d.gif'%i)
+        boximages.append(img)
+        img = gfx.load('ybox%02d.gif'%i)
+        yboximages.append(img)
     snd.preload('boxhit', 'yboxhit')
    
 
@@ -35,7 +29,7 @@ class Box:
         self.touches = touches
         self.touching = 0
         self.dead = 0
-        self.imglists = None, boximages, yboximages, rboximages
+        self.imglists = None, boximages, yboximages
 
     def erase(self, background):
         r = background(self.rect)
@@ -59,8 +53,8 @@ class Box:
             self.touches -= 1
             if self.touches:
                 self.touching = 1
-                snd.play('yboxhit', 1.0, self.rect.centerx)
+                snd.play('yboxhit')
                 return 0
-            snd.play('boxhit', 1.0, self.rect.centerx)
+            snd.play('boxhit')
             return 1
         return 0            

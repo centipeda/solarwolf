@@ -9,29 +9,6 @@ import objship, objbox, objguard, objshot, objexplode, objtele
 import objpopbox, objpopshot, objtext, objsmoke, objwarp
 import levels, hud, players
 
-#num of insults must match num of complements
-Complements = (
-    'You\'re on fire!',
-    'Not too shabby',
-    'Keep it up!',
-    'Looking great!',
-    'Use the force, luke!',
-    'Hotshot',
-    'Make momma proud',
-    'Rad-o-cool',
-    'Too hot to handle'
-)
-Insults = (
-    'Try missing the bullets',
-    'Not so good',
-    'Ouch',
-    'Look away',
-    'Rookie',
-    'It hurts, it hurts',
-    'Both hands on the wheel',
-    'Choke Choke',
-    'Don\'t quit that day job',
-)
 
 
 def load_game_resources():
@@ -61,9 +38,6 @@ class GamePlay:
         self.state = ''
         self.statetick = self.dummyfunc
         self.lives_left = 0
-        self.shotsfired = 0
-        self.numdeaths = 0
-        self.complement = random.randint(0, len(Complements)-1)
 
         self.lasttick = pygame.time.get_ticks()        
         self.speedadjust = 1.0
@@ -84,7 +58,7 @@ class GamePlay:
 
 
     def starting(self):
-        snd.playmusic('arg.xm')
+        snd.playmusic('gameplay.wav')
 
     def gamewin(self):
         self.gamewon = 1
@@ -117,7 +91,7 @@ class GamePlay:
     def run(self):
         now = pygame.time.get_ticks()
         diff = now - self.lasttick
-        ratio = float(diff) / game.clockticks
+        ratio = float(diff) / game.clock.fps_ticks
         self.speedadjust = max(ratio, 1.0)
         self.lasttick = now
         
@@ -169,12 +143,7 @@ class GamePlay:
             shotspot, shotdir = baddy.shotinfo()
             s = objshot.Shot(shotspot, shotdir)
             self.shotobjs.append(s)
-            snd.play('shoot', 1.0, shotspot[0])
-            self.shotsfired += 1
-            if self.shotsfired == 40:
-                self.textobjs.append(objtext.Text(Complements[self.complement]))
-                self.complement = (self.complement + 1) % len(Complements)
-                self.shotsfired = 10
+            snd.play('shoot')
 
         self.tickleveltime(self.speedadjust)
 
@@ -197,7 +166,7 @@ class GamePlay:
         self.clocks += 1
         if self.player.turbo and (self.player.move[0] or self.player.move[1]) and gfx.surface.get_bytesize()>1:
             self.smokeobjs.append(objsmoke.Smoke(self.player.rect.center))
-            if game.clock.get_fps() > 35.0:
+            if game.clock.current_fps > 35.0:
                 self.smokeobjs.append(objsmoke.Smoke(self.player.rect.center))
 
         self.runobjects(self.objlists)
@@ -206,21 +175,13 @@ class GamePlay:
 
 #player die
     def playerdie_start(self):
-        snd.play('explode', 1.0, self.player.rect.centerx)
+        snd.play('explode')
         self.explode = objexplode.Explode(self.player.rect.center)
         self.staticobjs.append(self.explode)
         self.poptime = 3
         self.player.dead = 1
         self.player.active = 0
-        self.shotsfired = 0
-        self.numdeaths += 1
-        if self.numdeaths > 1:
-            self.textobjs.append(objtext.Text(Insults[self.complement]))
-            self.complement = (self.complement + 1) % len(Insults)
-        if len(self.boxobjs) <= 2:
-            self.textobjs.append(objtext.Text('Doh, so close'))
-        
-        
+
     def playerdie_tick(self):
         game.timeleft = max(game.timeleft - 10.0, 0.0)
         self.poptime -= 1
@@ -250,11 +211,10 @@ class GamePlay:
 
 #player start
     def playerstart_start(self):
-        snd.play('startlife', 1.0, self.startpos[0])
+        snd.play('startlife')
         self.hud.drawlives(self.lives_left)            
         self.teleport = objtele.Tele(self.startpos)
         self.popobjs.append(self.teleport)
-        self.shotsfired = 0
 
     def playerstart_tick(self):
         #when animations done
@@ -279,19 +239,21 @@ class GamePlay:
         self.newboxes, self.startpos, msg, num = levels.makelevel(self.levelnum)
         self.calcboxes = num
         self.addtime = 2
-        if game.clock.get_fps() < 25:
+        if game.clock.current_fps < 25:
             self.addtime = 1
         self.hud.drawlevel(self.levelnum)
-        self.textobjs.append(objtext.Text(msg))
-        self.shotsfired = 0
-        self.numdeaths = 0
+        if not self.skipping and msg:
+            self.textobjs.append(objtext.Text(msg))
 
         if self.levelnum > game.player.score:
             game.player.score = self.levelnum
         if not self.newcontinue and game.player.start_level() > self.startlevel:
             self.newcontinue = 1
-
-        if self.skipping: self.skiptime = 20
+            if not self.startlevel:
+                msg = "New Player Continue Enabled!"
+            else:
+                msg = "New Player Continue Level!"
+            self.textobjs.append(objtext.Text(msg))
 
 
     def levelstart_tick(self):
@@ -306,9 +268,7 @@ class GamePlay:
             game.timeleft = min(game.timeleft + 25.0, 1000.0)
         if self.skipping:
             if not self.newboxes:
-                self.skiptime -= 1
-                if not self.skiptime:
-                    self.changestate('levelskip')
+                self.changestate('levelskip')
         else:
             if game.timeleft == 1000.0 and not self.newboxes:
                 self.changestate('playerstart')
@@ -357,28 +317,24 @@ class GamePlay:
     def levelskip_start(self):
         snd.play('levelskip')
         self.poptime = 2
-        if game.clock.get_fps() < 25:
+        if game.clock.current_fps < 25:
             self.poptime = 1
         self.textobjs.append(objtext.Text('Level Skipped'))
-        self.skiptime = 25
 
     def levelskip_tick(self):
-        if self.skiptime:
-            self.skiptime -= 1
-        else:
-            game.timeleft = max(game.timeleft - 4.0, 0.0)
-            self.poptime -= 1
-            if not self.poptime:
-                self.poptime = 2
-                if self.boxobjs:
-                    b = random.choice(self.boxobjs)
-                    b.dead = 1
-                    self.popobjs.append(objpopbox.PopBox(b.rect.center))
-            if not game.timeleft and not self.boxobjs and not self.popobjs:
-                if self.levelnum+1 >= levels.maxlevels():
-                    self.gamewin()
-                else:
-                    self.changestate('levelstart')
+        game.timeleft = max(game.timeleft - 4.0, 0.0)
+        self.poptime -= 1
+        if not self.poptime:
+            self.poptime = 2
+            if self.boxobjs:
+                b = random.choice(self.boxobjs)
+                b.dead = 1
+                self.popobjs.append(objpopbox.PopBox(b.rect.center))
+        if not game.timeleft and not self.boxobjs and not self.popobjs:
+            if self.levelnum+1 >= levels.maxlevels():
+                self.gamewin()
+            else:
+                self.changestate('levelstart')
         self.runobjects(self.objlists)
 
     def levelskip_end(self):
@@ -449,7 +405,7 @@ class GamePlay:
         if self.gamewon:
             import gamewin
             nexthandler = gamewin.GameWin(nexthandler)
-            players.make_winner(game.player)
+            game.player.winner = 1
         if self.newcontinue:
             if not game.player in players.players:
                 players.players.append(game.player)
