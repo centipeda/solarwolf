@@ -7,7 +7,7 @@ import game
 import gfx, snd, txt
 import input
 import players
-import gamecreds, gamenews, gamestart, gamepref
+import gamecreds, gamenews, gamestart, gamesetup
 
 import gamewin
 
@@ -17,7 +17,6 @@ images = []
 boximages = []
 yboximages = []
 rboximages = []
-fame = None
 
 class MenuItem:
     def __init__(self, imgname, handler):
@@ -35,18 +34,19 @@ class MenuItem:
 
 menu = [
     MenuItem('start', gamestart.preGameStart),
+#    MenuItem('highs', gamename.GameName),
     MenuItem('news', gamenews.GameNews),
     MenuItem('creds', gamecreds.GameCreds),
-    MenuItem('setup', gamepref.GamePref),
+#    MenuItem('setup', gamesetup.GameSetup),
     MenuItem('quit', None),
 ]
 
 
 
 def load_game_resources():
-    global menu, images, boximages, fame
+    global menu, images, boximages
     images = []
-    pos = [20, 380] #[100, 420]
+    pos = [20, 420] #[100, 420]
     odd = 0
     for m in menu:
         m.init(pos)
@@ -74,10 +74,7 @@ def load_game_resources():
     imgs.set_palette(pal)
     rboximages = gfx.animstrip(imgs)
 
-    fame = gfx.load('fame.png')
-
     snd.preload('select_move', 'select_choose')
-
 
 
 class GameMenu:
@@ -110,45 +107,19 @@ class GameMenu:
         gfx.dirty(gfx.surface.blit(self.logo, self.logorect))
         gfx.dirty(gfx.surface.blit(self.bigship, self.bigshiprect))
 
-        self.fame = self.renderhall()
+        if players.winners:
+            msg = 'Hall Of Famers:  '
+            for w in players.winners:
+                msg += w.name + '  '
+            textfont = txt.Font(None, 26)
+            t = textfont.text((255, 250, 160), msg, (gfx.rect.centerx, 560))
+            self.fame = t
+        else:
+            self.fame = None
 
     def quit(self):
         self.current = len(menu)-1
         self.workbutton()
-
-
-    def renderhall(self):
-        winners = [w for w in players.winners if w.name]
-        if not winners:
-            return None
-
-        textfont = txt.Font(None, 24)
-        smallfont = txt.Font(None, 16)
-        count = min(4, len(players.winners))
-        size = count*160, 70
-        img = pygame.Surface(size)
-        img.fill((30,30,80))
-        pygame.draw.rect(img, (50, 50, 100), img.get_rect(), 1)
-        img.blit(fame, (8, 3))
-
-        left = 90
-        firstone = 1
-        for p in winners:
-            if not firstone:
-                pygame.draw.line(img, (50, 50, 100), (left-80, 20), (left-80, 60), 1)
-            img.blit(*textfont.text((240, 240, 240), p.name, (left, 40)))
-            if p.cheater:
-                img.blit(*smallfont.text((160, 160, 160), 'Cheater', (left, 58)))
-            elif p.lives:
-                if p.skips:
-                    img.blit(*smallfont.text((160, 160, 160), '%d ships, %d skips'%(p.lives,p.skips), (left, 58)))
-                else:
-                    img.blit(*smallfont.text((160, 160, 160), '%d ships'%p.lives, (left, 58)))
-            left += 160
-            firstone = 0
-
-        return img, Rect((gfx.rect.width-size[0]-10, 520), size)
-
 
 
     def workbutton(self):

@@ -10,10 +10,10 @@ import gameplay
 
 credits = (
     ('Developer', ('Pete "ShredWheat" Shinners',)),
-    ('Graphics', ('Eero Tamminen',)),
+    ('Graphics', ('Eero Tamminem',)),
     ('Music', ('"theGREENzebra"',)),
     ('Programming Help', ('Aaron "APS" Schlaegel', 'Michael "MU" Urman')),
-    ('Special Thanks', ('David "Futility" Clark', 'Shandy Brown', 'John "Jacius" Croisant', 'Guido "Python" van Rossom', 'Sam "SDL" Lantinga')),
+    ('Special Thanks', ('David "Futility" Clark', 'Guido "Python" van Rossom', 'Sam "SDL" Lantinga')),
 )
 
 licenseinfo = ('This program is free software. You are encouraged to',
@@ -27,8 +27,8 @@ images = []
 def load_game_resources():
     global fonts, images
     fontname = None
-    fonts.append((txt.Font(fontname, 30), (50, 120, 100)))
-    fonts.append((txt.Font(fontname, 44), (100, 100, 250)))
+    fonts.append((txt.Font(fontname, 25), (50, 50, 200)))
+    fonts.append((txt.Font(fontname, 40), (100, 100, 250)))
 
     img = gfx.load('oldsolarfox.png')
     r = img.get_rect()
@@ -37,14 +37,6 @@ def load_game_resources():
 
     img = gfx.load('pygame_powered.gif')
     r = img.get_rect().move(540, 20)
-    images.append((img, r))
-
-    img = gfx.load('sdlpowered.png')
-    r = img.get_rect().move(630, 150)
-    images.append((img, r))
-
-    img = gfx.load('pythonpowered.gif')
-    r = img.get_rect().move(650, 280)
     images.append((img, r))
 
     img = gfx.load('menu_creds_on.png')
@@ -77,23 +69,20 @@ class GameCreds:
                 self.createtext(peop, 1)
             self.offset += 30
         self.offset = 0.0
-        self.oldoffsety = 0.0
+        self.oldoffset = 0.0, 0.0
         self.text.extend(images)
         self.first = 1
         self.fade = ((1, 4), (8, 3), (15, 2), (21, 1))
-        self.darkpic = pygame.Surface(self.area.size)
-        self.darkpic.set_alpha(3)
 
     def createtext(self, text, size):
         f, c = fonts[size]
-        t = f.textlined(c, text, (self.center, 0))
+        t = f.text(c, text, (self.center, 0))
         t[1].top = self.offset
         self.offset = t[1].bottom - 5
         self.credits.append(t)
 
 
     def quit(self):
-        gfx.dirty(self.background(gfx.rect))
         game.handler = self.prevhandler
         self.done = 1
         snd.play('select_choose')
@@ -113,30 +102,27 @@ class GameCreds:
         ratio = game.clockticks / 25
         speedadjust = max(ratio, 1.0)
 
-        self.offset += speedadjust * 1.0
-        offsety = self.area.bottom-self.offset
+        self.offset += speedadjust * 0.9
+        offset = math.cos(self.offset * .04)*30.0, self.area.bottom-self.offset
 
         oldclip = gfx.surface.get_clip()
-
-
-        gfx.surface.blit(self.darkpic, self.area)
+        gfx.surface.set_clip(self.area)
+        for cred in self.credits:
+            r = cred[1].move(self.oldoffset)
+            gfx.dirty(self.background(r))
+        gfx.surface.set_clip(oldclip)
 
         gfx.updatestars(self.background, gfx)
 
-        item = 0.0
         if not self.done:
             for cred, pos in self.text:
                 gfx.surface.blit(cred, pos)
             gfx.surface.set_clip(self.area)
             for cred, pos in self.credits:
-                offsetx = math.cos(self.offset * .04 + item)*30.0
-                item -= 0.25
-                r = pos.move(offsetx, offsety)
+                r = pos.move(offset)
                 bottom = r.bottom
-                gfx.surface.blit(cred, r)
-                #gfx.dirty(gfx.surface.blit(cred, r))
+                gfx.dirty(gfx.surface.blit(cred, r))
             gfx.surface.set_clip(oldclip)
-            gfx.dirty(self.area)
 
             for y,h in self.fade:
                 r = Rect(self.area.left, self.area.top+y, self.area.width, h)
@@ -144,9 +130,9 @@ class GameCreds:
                 r = Rect(self.area.left, self.area.bottom-y-h, self.area.width, h)
                 self.background(r)
 
+            self.oldoffset = offset
             if bottom < self.area.top:
                 self.offset = 0.0
-
         else:
             for text in self.text:
                 r = text[1]

@@ -1,6 +1,6 @@
 """graphics class, helps everyone to draw"""
 
-import sys, pygame, pygame.image
+import pygame, pygame.image
 from pygame.locals import *
 
 import game, stars
@@ -14,7 +14,6 @@ dirtyrects = []
 
 
 starobj = None
-wantscreentoggle = 0
 
 
 def initialize(size, fullscreen):
@@ -33,18 +32,9 @@ def initialize(size, fullscreen):
             loadpalette()
 
     except pygame.error, msg:
-        raise pygame.error, 'Cannot Initialize Graphics'
+        import messagebox
+        messagebox.error('Cannot Initialize Graphics', msg.args[0])
     starobj = stars.Stars()
-
-
-def switchfullscreen():
-    oldfull = surface.get_flags() & FULLSCREEN == FULLSCREEN
-    newfull = game.display == 1
-    if newfull == oldfull:
-        return
-    global wantscreentoggle
-    wantscreentoggle = 1
-
 
 
 def dirty(rect):
@@ -68,25 +58,7 @@ def updatestars(bgd, gfx):
 def update():
     global dirtyrects
     pygame.display.update(dirtyrects)
-    #dirtyrects = []
-    del dirtyrects[:]
-
-    global wantscreentoggle
-    if wantscreentoggle:
-        wantscreentoggle = 0
-        if game.handler:
-            starobj.eraseall(game.handler.background, sys.modules[__name__])
-        screencapture = pygame.Surface(surface.get_size())
-        screencapture.blit(surface, (0,0))
-        clipcapture = surface.get_clip()
-        initialize(surface.get_size(), game.display)
-#        if game.handler:
-#            game.handler.background(rect)
-        surface.blit(screencapture, (0,0))
-
-        pygame.display.update()
-        surface.set_clip(clipcapture)
-
+    dirtyrects = []
 
 def optimize(img):
     #~ if surface.get_alpha():

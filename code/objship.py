@@ -6,12 +6,11 @@ import game, gfx
 
 upimage = None
 shieldbg = None
-bulletbg = None
 shipimages = []
 
 def load_game_resources():
     #load ship graphics
-    global upimage, shipimages, shieldbg, bulletbg
+    global upimage, shipimages, shieldbg
 
     upimage = gfx.load('ship-up.png')
 
@@ -31,15 +30,14 @@ def load_game_resources():
         anim.append(imgs)
     shipimages.extend(zip(*anim))
 
-    shieldbg = gfx.animstrip(gfx.load('bonus-shield.png'))
-    bulletbg = gfx.animstrip(gfx.load('bonus-bullet.png'))
+    shieldbg = gfx.animstrip(gfx.load('ship-teleport.png'))[5]
 
 
 class Ship:
     def __init__(self):
         self.move = [0, 0]
         self.unmoved = 1
-        self.turbo = game.thruster
+        self.turbo = 0
         self.image = 0
         self.frame = 0.0
         self.rect = shipimages[0][0].get_rect()
@@ -49,7 +47,6 @@ class Ship:
         self.speeds = game.ship_slowspeed, game.ship_fastspeed
         self.pos = list(self.rect.topleft)
         self.shield = 0
-        self.bullet = 0
 
     def start(self, pos):
         self.rect.topleft = pos
@@ -58,7 +55,7 @@ class Ship:
         self.active = 1
         self.dead = 0
         self.move = [0, 0]
-        self.turbo = game.thruster
+        self.turbo = 0
         self.image = 0
         self.shield = 0
 
@@ -70,10 +67,8 @@ class Ship:
 
     def draw(self, gfx):
         frame = int(self.frame) % 4
-        if self.shield:
-            gfx.surface.blit(shieldbg[self.shield-1], self.rect)
-        elif self.bullet:
-            gfx.surface.blit(bulletbg[self.bullet-1], self.rect)
+        if self.shield > 1:
+            gfx.surface.blit(shieldbg, self.rect)
         if self.unmoved:
             img = upimage
         else:
@@ -85,7 +80,7 @@ class Ship:
     def tick(self, speedadjust = 1.0):
         self.frame += speedadjust
         speed = self.speeds[self.turbo]
-        if self.shield == 1:
+        if self.shield > 1:
             speed = int(speed * speedadjust * 1.3)
         else:
             speed = int(speed * speedadjust)
@@ -131,6 +126,4 @@ class Ship:
         self.unmoved = 0
 
     def cmd_turbo(self, onoff):
-        if game.thruster:
-            onoff = not onoff
         self.turbo = onoff

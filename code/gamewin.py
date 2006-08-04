@@ -53,8 +53,6 @@ class GameWin:
 
 
     def quit(self):
-        if not game.player:
-            game.player = players.Player("NONAME")
         players.make_winner(game.player)
 
         game.handler = self.prevhandler
