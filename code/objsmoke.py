@@ -11,12 +11,12 @@ images = []
 
 def load_game_resources():
     global images
-    images = gfx.animstrip(gfx.load('smoke.png'))
-    if gfx.surface.get_bytesize()>1: #16 or 32bit
-        i = 1
-        for img in images:
+    for i in range(1,5):
+        img = gfx.load('smoke%d.gif'%i)
+        img.set_colorkey((255, 49, 255), RLEACCEL)
+        if gfx.surface.get_bytesize()>1:
             img.set_alpha((1.8-math.log(i))*40, RLEACCEL)
-            i += 1
+        images.append(img)
 
 
 
@@ -50,7 +50,7 @@ class Smoke:
         if self.current >= self.speed:
             self.current = 0
             self.rect = self.rect.move(self.drift)
-
+        
         self.clocks += 1
         if self.clocks >= self.life:
             self.dead = 1

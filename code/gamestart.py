@@ -22,7 +22,7 @@ lastplayer = None
 def load_game_resources():
     global images, namefont, textfont, delimage
 
-    img = pygame.transform.rotate(gfx.load('ship-up.png'), -90)
+    img = pygame.transform.rotate(gfx.load('ship.gif'), -90)
     images.append((img, img.get_rect()))
 
     bgd = 0, 0, 0
@@ -64,6 +64,13 @@ class GameStart:
                 if players.find_player(g[0]) == lastplayer:
                     self.current[0] = step
                 step += 1
+
+        if players.winners:
+            msg = 'Hall Of Famers:  '
+            for w in players.winners:
+                msg += w.name + '  '
+            t = textfont.text((255, 250, 160), msg, (gfx.rect.centerx, 560))
+            self.images.append(t)
 
         self.moveto(self.gamelist[self.current[0]][1][1])
 
@@ -169,10 +176,10 @@ class GameStart:
                 img = pygame.Surface((490, 55), 0, 32)
 
             subimgs = []
-            t,r = namefont.text(clr, p.name)
-            subimgs.append((t, (0, 0)))
+#ACK, A RENDER
+            subimgs.append((namefont.render(p.name, 1, clr), (0, 0)))
 
-            subimg, r = textfont.text(clr2, 'Level: ')
+            subimg = textfont.render('Level: ', 1, clr2)
             r1 = subimg.get_rect()
             r1.bottomleft = 10, img.get_height()
             subimgs.append((subimg, r1))

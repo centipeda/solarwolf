@@ -1,13 +1,7 @@
 """text and font classes, helps everyone to text"""
 
 import pygame, pygame.font, gfx
-
-#old versions of SysFont were buggy
-if pygame.ver <= '1.6.1':
-    from mysysfont import SysFont
-else:
-    SysFont = pygame.font.SysFont
-
+from mysysfont import SysFont
 
 FontPool = {}
 
@@ -27,8 +21,6 @@ class Font:
             font = SysFont(name, size, bold, italic)
             FontPool[val] = font
         self.font = font
-        if size >= 20:
-            self.text = self.textshadowed
 
     def render(self, *args):
         return self.font.render(*args)
@@ -42,15 +34,6 @@ class Font:
     def set_bold(self, *args):
         return self.font.set_bold(*args)
 
-    def _positionrect(self, img, center, pos):
-        r = img.get_rect()
-        if center:
-            setattr(r, pos, center)
-        return r
-
-    def _render(self, text, color, bgd=(0,0,0)):
-        return img
-
     def text(self, color, text, center=None, pos='center'):
         bgd = 0, 0, 0
         if text is None: text = ' '
@@ -60,33 +43,15 @@ class Font:
                 img.set_colorkey(bgd, pygame.RLEACCEL)
             else:
                 img = self.font.render(text, 0, color)
+            img = img.convert()
         except (pygame.error, TypeError):
+            #print 'TEXTFAILED', text
             img = pygame.Surface((10, 10))
-        img = img.convert()
-        r = self._positionrect(img, center, pos)
+            #raise
+        r = img.get_rect()
+        if center: setattr(r, pos, center)
         return [img, r]
 
-    def textshadowed(self, color, text, center=None, pos='center'):
-        darkcolor = [int(c/2) for c in color]
-        if text is None: text = ' '
-        try:
-            if gfx.surface.get_bytesize()>1:
-                img1 = self.font.render(text, 1, color)
-                img2 = self.font.render(text, 1, darkcolor)
-            else:
-                img1 = img2 = self.font.render(text, 0, color)
-                img2 = self.font.render(text, 0, darkcolor)
-        except (pygame.error, TypeError):
-            img1 = img2 = pygame.Surface((10, 10))
-
-        newsize = img1.get_width()+2, img1.get_height()+2
-        img = pygame.Surface(newsize)
-        img.blit(img2, (2, 2))
-        img.blit(img1, (0, 0))
-        img = img.convert()
-        img.set_colorkey((0,0,0), pygame.RLEACCEL)
-        r = self._positionrect(img, center, pos)
-        return [img, r]
 
     def textbox(self, color, text, width, bgcolor, topmargin=6):
         sidemargin = 6

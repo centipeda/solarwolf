@@ -5,16 +5,21 @@ import pygame
 from pygame.locals import *
 import game, gfx, snd, objpopshot
 
+
 images = []
 origsize = 0,0
 
 def load_game_resources():
     global images, origsize
-    anim = gfx.animstrip(gfx.load('asteroid.png'))
-    origsize = anim[0].get_size()
-    for x in range(36):
+#    for letter in 'bcdef':
+#        img = gfx.load('powerup_' + letter + '.png')
+#        images.append(img)
+#    snd.preload('select_choose')
+    for y in range(1,4):
+        img = gfx.load('asteroid%d.png'%y)
+        origsize = img.get_size()
         set = []
-        for img in anim:
+        for x in range(36):
             r = pygame.transform.rotate(img, x*10+8)
             set.append(r.convert())
         images.append(set)
@@ -30,8 +35,8 @@ class Asteroid:
         self.rotspeed = 0.2
 
     def reposition(self):
-        self.images = random.choice(images)
-        self.image = self.images[0]#[0]
+        self.images = images[random.randint(0, 2)]
+        self.image = self.images[0]
 
         self.movex = random.random() * 2.0 - 1.0
         diff = 1.0 - abs(self.movex)
@@ -42,12 +47,9 @@ class Asteroid:
         else:
             self.pos = [0.0, float(r - 700)]
 
-        self.animspeed = (random.random() + 2.0) * .1
-        #self.rotspeed = (random.random() + 3.0) * 0.08 * 0.0
+        self.rotspeed = (random.random() + 3.0) * 0.15
         if random.random() < .5:
-            self.animspeed = -self.animspeed
-        #if random.random() < .5:
-        #    self.rotspeed = -self.rotspeed
+            self.rotspeed = -self.rotspeed
 
         self.rect = self.image.get_rect()
         self.rect.center = self.pos
@@ -56,8 +58,8 @@ class Asteroid:
 
 
     def predictrect(self):
-        posx = (self.pos[0] + 16.0 * self.speed * self.movex) % 740
-        posy = (self.pos[1] + 16.0 * self.speed * self.movey) % 640
+        posx = (self.pos[0] + 10.0 * self.speed * self.movex) % 740
+        posy = (self.pos[1] + 10.0 * self.speed * self.movey) % 640
         rect = pygame.Rect((0, 0), self.colliderect.size)
         rect.center = posx, posy
         rect.move_ip(-20, -20)
@@ -74,11 +76,8 @@ class Asteroid:
 
     def tick(self, speedadjust):
         self.time += speedadjust
-        #rot = int(self.time * self.rotspeed)
-        anm = int(self.time * self.animspeed)
-        #anim = self.images[rot % len(self.images)]
-        anim = self.images
-        self.image = anim[anm % len(anim)]
+        rot = int(self.time * self.rotspeed)
+        self.image = self.images[rot % len(self.images)]
 
         posx = (self.pos[0] + speedadjust*self.speed * self.movex) % 740
         posy = (self.pos[1] + speedadjust*self.speed * self.movey) % 640

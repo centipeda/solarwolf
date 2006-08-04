@@ -127,6 +127,8 @@ def init():
         joystick = None
 
 
+def joyindex(val):
+    return int(val*1.9)+1
 
 def postactive():
     keystate = pygame.key.get_pressed()
@@ -212,11 +214,7 @@ def translate(event):
             if event.type == KEYUP:
                 release = 1
     elif event.type == JOYAXISMOTION:
-        value = None
-        if event.value > .8:
-            value = AXISMORE
-        elif event.value < -.8:
-            value = AXISLESS
+        value = (AXISLESS, None, AXISMORE)[joyindex(event.value)]
         axis = event.axis
         if value != lastaxisvalue[axis]:
             if lastaxisvalue[axis] == None:
@@ -343,19 +341,15 @@ def load_translations():
     global translations
     global translations_default
     translations = {}
-    #just sticking to the standard controls for now
-    #try:
-    #    filename = game.make_dataname('input')
-    #    translations = pickle.load(open(filename, 'rb'))
-    #except (IOError, OSError, KeyError):
+    try:
+        filename = game.make_dataname('input')
+        translations = pickle.load(open(filename, 'rb'))
+    except (IOError, OSError, KeyError):
         #print 'ERROR OPENING CONTROL FILE, loading defaults'
-    if 1:
         translations = translations_default
 
 def save_translations():
     global translations
-    #not gonna save for now
-    return
     try:
         filename = game.make_dataname('input')
         f = open(filename, 'wb')
