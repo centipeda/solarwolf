@@ -1,17 +1,10 @@
-"""Game name entry handler, part of SOLARWOLF."""
-# Portions Copyright (C) 2002 Aaron "APS" Schlaegel, LGPL, see lgpl.txt
+"gamename entry handler"
 
 import string, math
 import pygame, pygame.font
 from pygame.locals import *
-import game
-import gfx
-import input
-import snd
-import players
-import gameplay
-import gamecreds
-import gamenews
+import game, gfx, input, snd, players
+import gameplay, gamecreds, gamenews
 
 
 charset = string.uppercase + '-.'
@@ -107,6 +100,8 @@ class GameName:
         self.step = 0.0
 
 
+
+
     def quit(self):
         snd.play('select_choose')
         game.handler = self.prevhandler
@@ -186,16 +181,9 @@ class GameName:
             
     
     def input(self, i):
-        if i.release:
-            return
-        if i.type == KEYDOWN:
-            if i.unicode and i.unicode.upper() in charset:
-                return
-            elif i.key in (K_DELETE, K_BACKSPACE):
-                return
-        if i.translated == input.ABORT:
+        if i == input.ABORT:
             return self.quit()
-        if i.translated == input.PRESS:
+        if i == input.PRESS:
             letter = self.letter[2]
             if letter == '<':
                 self.rub()
@@ -205,10 +193,10 @@ class GameName:
                 self.addletter(self.letter[2])
             return
         change = 0
-        if i.translated == input.LEFT: change = -1
-        elif i.translated == input.RIGHT: change = 1
-        elif i.translated == input.UP: change = -10
-        elif i.translated == input.DOWN: change = 10
+        if i == input.LEFT: change = -1
+        elif i == input.RIGHT: change = 1
+        elif i == input.UP: change = -10
+        elif i == input.DOWN: change = 10
         if not change:
             return
         snd.play('select_move')
