@@ -1,0 +1,51 @@
+
+Graphics for SolarWolf
+======================
+
+Files:
+README -- This file
+*.pov -- POV-Ray 3D models for the graphics
+*.inc -- partial models included / used by the POV scripts
+*.png -- animations and single images generated from the models
+camera-ortho.inc -- automatic orthogonal camera settings for all the models
+lights.inc -- lighting settings for all the models
+Makefile -- renders, compiles and shows everything automatically
+showanim.c -- source code for the animation viewer
+animshow.sh -- script running showanim giving correct frames & help
+blur.sh -- script to blur successive animation frames together to produce
+           animation with fewer frames that still looks reasonably smooth
+
+
+Viewer requirements:
+- GNU make
+- SDL
+
+Rendering requirements:
+- GNU make
+- POV-Ray 3.5 or newer
+- 'convert' from the ImageMagick package
+
+
+To view all the images, type 'make show'. If some image is not
+yet rendered, Makefile will render it.
+
+In the animation viewer, you can use following keys:
+ SPACE =  pause
+ Arrows = forward/reverse
+ ESC =    exit/next
+
+It's good to use the viewer so that you can see how
+well e.g. the animation wraps around.
+
+
+Animation viewer and blur.sh are originally from Airstrike game and
+under GPL license, see:
+	http://www.icculus.org/airstrike/
+
+My POV-ray and shell scripts are also under GPL license. The produced
+graphics are freely usable, but if you alter the scripts producing the
+images, you have to provide the modified POV-ray source code with them
+too.
+
+
+	- Eero, http://koti.welho.com/kmattil4/
